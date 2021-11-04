@@ -1,1 +1,2 @@
-
+{:deps {scicloj/Clojuratica {:git/url "https://github.com/scicloj/Clojuratica"
+                             :sha     "76dc4832ed31949d601fe2015838ff5edaea06e9"}}}
