@@ -115,6 +115,21 @@
 
 (quick-show '(ArrayPlot (CellularAutomaton 30 [[1] 0] 50)))
 
+
+;; *** 2D line plots
+(quick-show '(Plot (+ 1 (* 2 x)) [x 1 10]))
+(quick-show '(Plot (+ 1 (* 2 (Power x 3))) [x -10 10]))
+
+;; *** 3D Surface plots!
+(quick-show '(Plot3D (+ 1 (* 2 x (Power y 3))) [x -10 10] [y -10 10]))
+(quick-show '(Plot3D (+ 1 (* 2 x (Power y 2))) [x -10 10] [y -10 10]))
+(quick-show '(Plot3D (+ 1 (* 2 x y)) [x 1 10] [y 1 10]))
+(quick-show '(Plot3D (/ 1 (* 2 x y)) [x -10 10] [y -10 10]))
+
+;; QUESTION: Is there a way to interact with these through JLink?
+;; QUESTION: How would you embed a plot in HTML?
+
+
 ;; Multiway Graph
 ;;https://writings.stephenwolfram.com/2021/09/even-beyond-physics-introducing-multicomputation-as-a-fourth-general-paradigm-for-theoretical-science/
 
@@ -171,5 +186,15 @@
               ContentObject
               Snippet)]
        (WordFrequency ~t (TextWords ~t)))
+
+  ;; How do you show multiple things at once?
+  (quick-show '(Table (GridGraph [i j])
+                      [i 2 7] [j 4 8]))
+  (quick-show '(List (GridGraph [2 2 2])
+                     (GridGraph [2 2 2 2])
+                     (GridGraph [2 2 2 2 2 2])))
+  (quick-show '[(GridGraph [2 2 2]
+                 (GridGraph [2 2 2 2])
+                 (GridGraph [2 2 2 2 2]))])
 
   :end-comment)
