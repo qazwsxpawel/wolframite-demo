@@ -91,9 +91,9 @@
 ;; ** Graphics
 ;; *** Init math canvas & app
 
-(do
-  (def canvas (make-math-canvas! kernel-link))
-  (def app (make-app! canvas)))
+(let [sf 1.3]
+  (def canvas (make-math-canvas! kernel-link :scale-factor sf))
+  (def app (make-app! canvas :scale-factor sf)))
 
 ;; *** Draw Something!
 
