@@ -1,7 +1,7 @@
 (ns demo
   (:require
-   [clojuratica.core :as wl :refer [WL]]
-   [clojuratica.tools.graphics :as graphics]))
+   [clojuratica.core :as wl :refer [WL math-intern math-evaluate kernel-link wl->clj clj->wl]]
+   [clojuratica.tools.graphics :as graphics :refer [make-app! make-math-canvas! show!]]))
 
 
 ;; * Clojure a 1min intro
@@ -54,7 +54,7 @@
 
 (WL (Plus 23 '"{1 , 2, 3} . {4, 5, 6}"))
 
-(wl/math-intern wl/math-evaluate Plus)
+(math-intern math-evaluate Plus)
 
 #_{:clj-kondo/ignore true}
 (Plus [1 2] [3 4])
@@ -89,27 +89,27 @@
 
 ;; - Bidirectional translation
 
-(wl/wl->clj "GridGraph[{5, 5}]" wl/math-evaluate)
+(wl->clj "GridGraph[{5, 5}]" math-evaluate)
 
-(wl/clj->wl '(GridGraph [5 5]) {:kernel-link wl/kernel-link
-                                :output-fn str})
+(clj->wl '(GridGraph [5 5]) {:kernel-link kernel-link
+                             :output-fn str})
 
 ;; ** Graphics
 
 ;; *** Init math canvas & app
 
-(def canvas (graphics/make-math-canvas! wl/kernel-link))
-(def app (graphics/make-app! canvas))
+(def canvas (make-math-canvas! kernel-link))
+(def app (make-app! canvas))
 
 ;; *** Draw Something!
 
-(graphics/show! canvas (wl/clj->wl '(GridGraph [5 5]) {:output-fn str}))
-(graphics/show! canvas (wl/clj->wl '(ChemicalData "Ethanol" "StructureDiagram") {:output-fn str}))
+(show! canvas (clj->wl '(GridGraph [5 5]) {:output-fn str}))
+(show! canvas (clj->wl '(ChemicalData "Ethanol" "StructureDiagram") {:output-fn str}))
 
 ;; *** Make it easier (Dev Helper: closing over the canvas)
 
 (defn quick-show [clj-form]
-  (graphics/show! canvas (wl/clj->wl clj-form {:output-fn str})))
+  (show! canvas (clj->wl clj-form {:output-fn str})))
 
 ;; *** Some Simple Graphiscs Examples
 
@@ -120,7 +120,7 @@
 (comment ;; WIP
 
   ;; TODO: understand scopes
-  (wl/math-intern wl/math-evaluate :scopes)
+  (math-intern math-evaluate :scopes)
 
   ;; TODO Fix this one
   ;; prnc: need to understand this scoping construct better, seemed to work :/
