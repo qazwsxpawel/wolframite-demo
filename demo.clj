@@ -46,8 +46,6 @@
 
 ;; * Wolframite (nee Clojuratica) -- name is a WIP
 
-;; Init
-
 (WL (Dot [1 2 3] [4 5 6]))
 
 (WL '"{1 , 2, 3} . {4, 5, 6}")
@@ -65,23 +63,19 @@
 
 (greetings "Stephen")
 
-;; threading fun
+;; clojure threading fun -- thread first macro
 
 (-> "Ocean"
     Entity
     (GeoNearest Here)
     WL)
 
-;; - Wolfram Alpha
+;; - more interesting examples:
 
 (WL (WolframAlpha "number of moons of Saturn" "Result"))
 
-;; - more examples
-
-;; - WL syntactic sugar
+;; WL syntactic sugar (originally postfix notation)
 (WL @(a b c d))
-
-;; - more interesting examples...
 
 (WL (TextStructure "The cat sat on the mat."))
 
@@ -95,11 +89,11 @@
                              :output-fn str})
 
 ;; ** Graphics
-
 ;; *** Init math canvas & app
 
-(def canvas (make-math-canvas! kernel-link))
-(def app (make-app! canvas))
+(do
+  (def canvas (make-math-canvas! kernel-link))
+  (def app (make-app! canvas)))
 
 ;; *** Draw Something!
 
@@ -111,11 +105,48 @@
 (defn quick-show [clj-form]
   (show! canvas (clj->wl clj-form {:output-fn str})))
 
-;; *** Some Simple Graphiscs Examples
+;; *** Some Simple Graphics Examples
 
 (quick-show '(ChemicalData "Ethanol" "StructureDiagram"))
 (quick-show '(GridGraph [5 5]))
 (quick-show '(GeoImage (Entity "City" ["NewYork" "NewYork" "UnitedStates"])))
+
+(quick-show
+ '(GeoListPlot
+   (Map
+    GeoPosition
+    (Keys
+     (Take
+      (Association
+       ((Entity "Ocean" "PacificOcean") (EntityProperty "Ocean" "MajorIslands")))
+      70)))
+   (-> GeoRange (Quantity 1000 "Miles"))))
+
+;; ** Some Similarities and Next Steps
+
+;; - implementing clojure hash map -> WL associations
+
+(-> (Association (-> "b" 2)
+                 (-> "c" 3)
+                 (-> "a" 1))
+    (Keys)
+    (Take 2)
+    (->> (Map StringLength) WL))
+
+;; not working yet...
+;; (-> {"a" 1
+;;      "b" 2
+;;      "c" 3}
+;;     (Keys)
+;;     (Take 2)
+;;     (->> (Map StringLength) WL))
+
+(->> {"a" 1
+      "b" 2
+      "c" 3}
+     (keys)
+     (take 2)
+     (map count))
 
 (comment ;; WIP
 
