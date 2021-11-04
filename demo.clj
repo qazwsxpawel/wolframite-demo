@@ -111,18 +111,28 @@
 (quick-show '(GridGraph [5 5]))
 (quick-show '(GeoImage (Entity "City" ["NewYork" "NewYork" "UnitedStates"])))
 
-(quick-show
- '(GeoListPlot
-   (Map
-    GeoPosition
-    (Keys
-     (Take
-      (Association
-       ((Entity "Ocean" "PacificOcean") (EntityProperty "Ocean" "MajorIslands")))
-      70)))
-   (-> GeoRange (Quantity 1000 "Miles"))))
+;;  Rule 30
+
+(quick-show '(ArrayPlot (CellularAutomaton 30 [[1] 0] 50)))
+
+;; Multiway Graph
+;;https://writings.stephenwolfram.com/2021/09/even-beyond-physics-introducing-multicomputation-as-a-fourth-general-paradigm-for-theoretical-science/
+
+(quick-show '(Graph
+              ((ResourceFunction "MultiwaySystem")
+               [(-> "A" "BBB") (-> "BB" "A")]
+               "A"
+               7
+               "StatesGraph")
+              (-> AspectRatio 1.5)))
+
 
 ;; ** Some Similarities and Next Steps
+
+;; it's in the family
+
+;; RulePlot[CellularAutomaton[30]]
+;; (RulePlot (CellularAutomaton 30))
 
 ;; - implementing clojure hash map -> WL associations
 
